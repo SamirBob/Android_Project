@@ -15,3 +15,9 @@
     3、然后通过make snod，打包进system.img
     4、开机后会在/system/bin/的目录下生成可执行程序
     
+三、Android中添加硬件抽象层(HAL)
+    1、在hardware/libhardware/include/hardware中添加freg.h文件
+    2、在hardware/libhardware/modules添加freg目录，并在目录中添加如下文件：Android.mk freg.cpp
+    3、进行模块化编译，mmm ./hardware/libhardware/modules/freg
+    4、通过make snod 打包生成的.so文件
+    5、开机后会在/system/lib/hw/下面生成相应的so文件
