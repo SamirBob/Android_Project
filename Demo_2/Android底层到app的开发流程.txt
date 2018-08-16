@@ -21,3 +21,34 @@
     3、进行模块化编译，mmm ./hardware/libhardware/modules/freg
     4、通过make snod 打包生成的.so文件
     5、开机后会在/system/lib/hw/下面生成相应的so文件
+    
+ 四、Android中添加硬件访问服务
+    1、添加硬件访问服务接口，在frameworks/base/core/java/android/os中添加IFregService.aidl接口文件
+    2、修改frameworks/base目录下的Android.mk文件，在LOCAL_SRC_FILES变量添加IFregService.aidl的值
+    3、实现硬件访问服务，在frameworks/base/services/core/java/com/android/server目录中添加FregService.java
+    4、实现硬件访问服务的JNI接口，在frameworks/base/services/core/jni目录下添加com_android_server_FregService.cpp文件
+    5、在目录frameworks/base/services/core/jni的onload.cpp文件中添加"
+int register_android_server_FregService(JNIEnv* env);"代码。
+    6、启动硬件访问服务，在frameworks/base/services/java/com/android/server目录下的SystemServer.java,添加如下内容：
+    private void startOtherServices() {
+    ......
+    if (mFactoryTestMode != FactoryTest.FACTORY_TEST_LOW_LEVEL) {
+        ......
+        try{
+                Slog.i(TAG, "Freg Service");
+                ServiceManager.addService("freg", new FregService());
+            } catch (Throwable e) {
+                Slog.e(TAG, "Failure staring Freg Service", e);
+            }
+    ....
+    }
+}
+    7、相关权限配置，对/external/sepolicy目录下的如下文件进行相应修改
+    device.te
+    domain.te
+    file_contexts
+    service.te
+    service_contexts
+    system_app.te
+    system_server.te
+    untrusted_app.te

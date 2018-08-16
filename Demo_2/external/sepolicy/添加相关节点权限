@@ -1,0 +1,18 @@
+在device.te文件中添加
+type freg_device, dev_type;
+在domain.te文件中添加
+allow domain freg_device:chr_file rw_file_perms;
+在file_contexts文件中添加
+/dev/freg    u:object_r:freg_device:s0
+在service.te中文件中添加
+type freg_service, system_api_service, system_server_service, service_manager_type;
+在service_contexts文件中添加
+freg    u:object_r:freg_service:s0
+在system_server.te文件中添加
+allow system_server freg_device:chr_file rw_file_perms;
+在untrusted_app.te文件中添加
+allow untrusted_app freg_service:service_manager find;
+在system_app.te文件中添加
+allow system_app freg_service:service_manager find;
+
+注意：如果不添加会出现上报avc的错误，导致应用开启失败
