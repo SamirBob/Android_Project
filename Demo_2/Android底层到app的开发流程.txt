@@ -1,0 +1,10 @@
+一、Android中添加硬件驱动程序
+    1、下载对应Android版本的内核源码，并预先进行Android和内核的工程编译
+    2、增加驱动
+        a、在kernel/drivers目录下新建一个freg目录。并在freg目录下新建如下四个文件：freg.c freg.h Kconfig Makefile
+            freg.h 和 freg.c是源代码文件，Kconfig是编译选项配置文件，Makefile是编译脚本文件
+        b、修改kernel/drivers目录下的Kconfig和Makefile
+        在drivers目录下的Kconfig文件的menu... endmenu中添加source "drivers/freg/Kconfig"
+        在drivers目录下的Makefile文件中添加：obj-$(CONFIG_FREG) += freg/
+    3、在kernel根目录下执行make menuconfig时，就会出现选择Fake Register Driver
+    4、执行make编译内核
