@@ -52,3 +52,23 @@ int register_android_server_FregService(JNIEnv* env);"代码。
     system_app.te
     system_server.te
     untrusted_app.te
+    
+五、Android应用程序使用硬件访问服务实例
+1、packages/experimental目录中添加Freg目录，在Freg目录下添加App工程文件，工程目录结构如下
+Freg/
+├── AndroidManifest.xml
+├── Android.mk
+├── README
+├── res
+│   ├── drawable
+│   │   └── ic_launcher.png
+│   ├── layout
+│   │   └── main.xml
+│   └── values
+│       └── strings.xml
+└── src
+    └── com
+        └── example
+            └── Freg.java
+2、使用mmm ./packages/experimenttal/Freg/进行模块化的一个编译
+3、进行打包 make snod
