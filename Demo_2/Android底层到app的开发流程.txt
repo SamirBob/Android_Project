@@ -8,3 +8,10 @@
         在drivers目录下的Makefile文件中添加：obj-$(CONFIG_FREG) += freg/
     3、在kernel根目录下执行make menuconfig时，就会出现选择Fake Register Driver
     4、执行make编译内核
+    
+二、Android中添加C可执行程序验证硬件驱动程序
+    1、在Android的external目录中添加freg,并在其中添加如下两个文件：Android.mk freg.c
+    2、先对Android源码进行编译后，使用mmm ./external/freg 进行模块化编译
+    3、然后通过make snod，打包进system.img
+    4、开机后会在/system/bin/的目录下生成可执行程序
+    
